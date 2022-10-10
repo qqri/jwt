@@ -14,12 +14,13 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @RequiredArgsConstructor
-public class PrincipleDetailsService implements UserDetailsService {
+public class PrincipalDetailsService implements UserDetailsService {
 
     private final UserRepository userRepository;
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        System.out.println("PrincipalDetailsService의 loadUserByUsername() ");
         User userEntity = userRepository.findByUsername(username);
-        return new PrincipleDetails(userEntity);
+        return new PrincipalDetails(userEntity);
     }
 }
