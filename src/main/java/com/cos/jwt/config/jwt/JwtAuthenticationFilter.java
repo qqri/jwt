@@ -18,7 +18,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
+import com.cos.jwt.config.jwt.JwtProperties;
 
 import lombok.RequiredArgsConstructor;
 
@@ -84,10 +84,10 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         //RSA방식 아니고 Hash암호방식
         String jwtToken = JWT.create()
                 .withSubject(principalDetails.getUsername())
-                .withExpiresAt(new Date(System.currentTimeMillis()+864000000))
+                .withExpiresAt(new Date(System.currentTimeMillis() + JwtProperties.EXPIRATION_TIME))
                 .withClaim("id", principalDetails.getUser().getId()) //비공개 클레임값
                 .withClaim("username", principalDetails.getUser().getUsername())
-                .sign(Algorithm.HMAC512("cos"));
+                .sign(Algorithm.HMAC512(JwtProperties.SECRET));
 
 
 

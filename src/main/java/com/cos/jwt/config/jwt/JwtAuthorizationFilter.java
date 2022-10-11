@@ -43,15 +43,15 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
         System.out.println( "JwtHeader : "+ jwtHeader);
 
         //header가 있는지 확인
-        if(jwtHeader == null || !jwtHeader.startsWith("Bearer") ) {
+        if(jwtHeader == null || !jwtHeader.startsWith(JwtProperties.TOKEN_PREFIX) ) {
             chain.doFilter(request, response);
             return;
         }
         //JWT 토큰을 검증해서 정상적인 사용자인지 확인
-        String jwtToken = request.getHeader("Authorization").replace("Bearer " , "");
+        String jwtToken = request.getHeader("Authorization").replace(JwtProperties.TOKEN_PREFIX , "");
 
         String username =
-                JWT.require(Algorithm.HMAC512("cos")).build().verify(jwtToken).getClaim("username").asString();
+                JWT.require(Algorithm.HMAC512(JwtProperties.SECRET)).build().verify(jwtToken).getClaim("username").asString();
 
         //서명이 정상적으로 됐다.
         if(username != null) {
