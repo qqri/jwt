@@ -1,6 +1,8 @@
 package com.cos.jwt.model;
 
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,6 +14,7 @@ import java.util.List;
 
 @Data
 @Entity
+@NoArgsConstructor
 public class User {
 
     @Id
@@ -21,6 +24,7 @@ public class User {
     private String password;
     private String roles;
 
+
     public List<String> getRoleList(){
         if(this.roles.length() > 0 ) {
             return Arrays.asList(this.roles.split(","));
@@ -28,4 +32,11 @@ public class User {
         return new ArrayList<>();
     }
 
+    @Builder
+    public User(long id, String username, String password, String roles) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.roles = roles;
+    }
 }
